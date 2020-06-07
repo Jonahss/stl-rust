@@ -30,5 +30,7 @@ fn main() {
 
     println!("{}", "-2e2".parse::<f32>().unwrap());
 
-    stl::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME));
+    let solid = stl::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME));
+
+    println!("{:?}", solid)
 }

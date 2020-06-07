@@ -2,7 +2,22 @@ mod datatypes;
 
 use std::fs;
 
-pub fn load(path: &str) {
+#[derive(Debug)]
+pub struct Solid {
+  pub triangles: Vec<datatypes::Triangle>,
+  pub name: String,
+}
+
+impl Solid {
+  pub fn new(triangles: Vec<datatypes::Triangle>, name: String) -> Solid {
+    Solid {
+      triangles,
+      name,
+    }
+  }
+}
+
+pub fn load(path: &str) -> Solid {
   println!("load {}", path);
 
   let contents = fs::read_to_string(path).expect("Something went wrong reading the file");
@@ -13,7 +28,7 @@ pub fn load(path: &str) {
   
   let mut chars = contents.chars().peekable();
 
-  let mut num_triangles: i32 = 0;
+  let mut triangles = Vec::new();
 
   consume_solid(&mut chars);
   consume_whitespace(&mut chars);
@@ -24,12 +39,14 @@ pub fn load(path: &str) {
       break;
     }
     let triangle = consume_triangle(&mut chars);
-    num_triangles += 1;
+    triangles.push(triangle);
   }
 
   println!("title is {}", title);
-  println!("num triangles {}", num_triangles);
+  println!("num triangles {}", triangles.len());
   println!("next char {:?}", chars.peek());
+
+  Solid::new(triangles, title)
 }
 
 fn consume_solid(chars: &mut std::iter::Peekable<std::str::Chars>) {
