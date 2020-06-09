@@ -1,4 +1,4 @@
-mod stl;
+use stl_rust as stl;
 
 use std::fmt;
 

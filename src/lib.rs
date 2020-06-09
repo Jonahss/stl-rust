@@ -1,6 +1,6 @@
-mod datatypes;
-
 use std::fs;
+
+mod datatypes;
 
 #[derive(Debug)]
 pub struct Solid {
