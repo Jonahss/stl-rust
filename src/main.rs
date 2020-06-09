@@ -32,5 +32,5 @@ fn main() {
 
     let solid = stl::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME));
 
-    println!("{:?}", solid)
+    println!("{:?}", solid.triangles.len())
 }

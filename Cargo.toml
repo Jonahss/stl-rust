@@ -1,5 +1,5 @@
 [package]
-name = "rust"
+name = "stl_rust"
 version = "0.1.0"
 authors = ["Jonah Stiennon <jonahss@gmail.com>"]
 edition = "2018"
