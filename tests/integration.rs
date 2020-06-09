@@ -11,8 +11,3 @@ fn parse_and_load() {
   let solid = stl_rust::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME));
   assert_eq!(solid.triangles.len(), 4400)
 }
-
-#[bench]
-fn benchmark_parse_and_load(b: &mut Bencher) {
-  b.iter(|| stl_rust::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME)));
-}

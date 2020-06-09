@@ -4,7 +4,7 @@ extern crate stl_rust;
 use test::Bencher;
 
 const TEST_ASSET_PATH: &str = "./testAssets";
-const FILE_NAME: &str = "stacked_cones_slices_2.stl";
+const FILE_NAME: &str = "sculpted_sphere.stl";
 
 
 #[bench]
