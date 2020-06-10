@@ -9,5 +9,8 @@ const FILE_NAME: &str = "sculpted_sphere.stl";
 
 #[bench]
 fn benchmark_parse_and_load(b: &mut Bencher) {
-  b.iter(|| stl_rust::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME)));
+  b.iter(|| {
+    let model = stl_rust::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME));
+    assert_eq!(model.name, "Exported from Blender-2.83.0")
+  });
 }
