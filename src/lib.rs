@@ -1,4 +1,6 @@
 use std::fs;
+use std::iter::{Peekable, Enumerate};
+use std::str::{Chars};
 
 mod datatypes;
 
@@ -49,7 +51,7 @@ pub fn load(path: &str) -> Solid {
   Solid::new(triangles, title.to_string())
 }
 
-fn consume_solid(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_solid(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "solid".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -59,7 +61,7 @@ fn consume_solid(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::
   }
 }
 // todo: wrap each function in a whitespace trimmer
-fn consume_triangle(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) -> datatypes::Triangle {
+fn consume_triangle(chars: &mut Peekable<Enumerate<Chars>>) -> datatypes::Triangle {
   consume_whitespace(chars);
   consume_facet(chars);
   consume_whitespace(chars);
@@ -85,7 +87,7 @@ fn consume_triangle(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::st
 
 // todo: let's have these literals be generated as closures
 // need to learn about lifetimes for that
-fn consume_facet(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_facet(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "facet".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -95,7 +97,7 @@ fn consume_facet(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::
   }
 }
 
-fn consume_normal(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_normal(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "normal".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -105,7 +107,7 @@ fn consume_normal(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str:
   }
 }
 
-fn consume_outer(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_outer(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "outer".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -115,7 +117,7 @@ fn consume_outer(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::
   }
 }
 
-fn consume_loop(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_loop(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "loop".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -125,7 +127,7 @@ fn consume_loop(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::C
   }
 }
 
-fn consume_vertex(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_vertex(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "vertex".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -135,7 +137,7 @@ fn consume_vertex(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str:
   }
 }
 
-fn consume_endloop(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_endloop(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "endloop".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -145,7 +147,7 @@ fn consume_endloop(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str
   }
 }
 
-fn consume_endfacet(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_endfacet(chars: &mut Peekable<Enumerate<Chars>>) {
   for s in "endfacet".chars() {
     match chars.next() {
       Some(x) if x.1 == s => continue,
@@ -155,7 +157,7 @@ fn consume_endfacet(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::st
   }
 }
 
-fn consume_normal_vector(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) -> datatypes::Vertex {
+fn consume_normal_vector(chars: &mut Peekable<Enumerate<Chars>>) -> datatypes::Vertex {
   consume_normal(chars);
   consume_whitespace(chars);
   let x = consume_number(chars);
@@ -168,7 +170,7 @@ fn consume_normal_vector(chars: &mut std::iter::Peekable<std::iter::Enumerate<st
   }
 }
 
-fn consume_vertex_vector(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) -> datatypes::Vertex {
+fn consume_vertex_vector(chars: &mut Peekable<Enumerate<Chars>>) -> datatypes::Vertex {
   consume_vertex(chars);
   consume_whitespace(chars);
   let x = consume_number(chars);
@@ -181,7 +183,7 @@ fn consume_vertex_vector(chars: &mut std::iter::Peekable<std::iter::Enumerate<st
   }
 }
 
-fn consume_number(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) -> f32 {
+fn consume_number(chars: &mut Peekable<Enumerate<Chars>>) -> f32 {
   let mut number = String::from("");
   let number = loop {
     match chars.peek() {
@@ -195,7 +197,7 @@ fn consume_number(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str:
   number.parse().expect("expecting an e mantissa number!")
 }
 
-fn consume_whitespace(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) {
+fn consume_whitespace(chars: &mut Peekable<Enumerate<Chars>>) {
   loop {
     match chars.peek() {
       Some(x) if x.1.is_whitespace() => chars.next(),
@@ -204,7 +206,7 @@ fn consume_whitespace(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::
   }
 }
 
-fn consume_title(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) -> String {
+fn consume_title(chars: &mut Peekable<Enumerate<Chars>>) -> String {
   let mut title = String::from("");
   loop {
     match chars.peek() {
@@ -216,7 +218,7 @@ fn consume_title(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::
   }
 }
 
-fn peek_endsolid(chars: &mut std::iter::Peekable<std::iter::Enumerate<std::str::Chars>>) -> bool {
+fn peek_endsolid(chars: &mut Peekable<Enumerate<Chars>>) -> bool {
   match chars.peek() {
     Some(x) if x.1 == 'e' => {
       println!("ending!");
