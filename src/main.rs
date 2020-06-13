@@ -32,5 +32,8 @@ fn main() {
 
     let solid = stl::load(&format!("{}/{}", TEST_ASSET_PATH, FILE_NAME));
 
-    println!("{:?}", solid.triangles.len())
+    println!("{:?}", solid.triangles.len());
+
+    let mesh = stl::mesh::Mesh::from_solid(solid);
+    println!("mesh: {}", mesh);
 }
