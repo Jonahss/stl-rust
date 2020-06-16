@@ -1,5 +1,5 @@
 #![feature(entry_insert)]
-use std::collections::{HashMap};
+use std::collections::{HashMap, HashSet};
 
 fn main() {
     let mut map: HashMap<&String, &String> = HashMap::new();
@@ -21,4 +21,15 @@ fn main() {
     //println!("first key: {}", first_key); // can't use it, was moved into the hashmap
     println!("a: {}, b: {}, c: {}\n\n\n", a, b, c);
     println!("references equal? {}", &hi == hihi);
+
+    let mut set: HashSet<&String> = HashSet::new();
+
+    let hi = String::from("hi");
+    let also_hi = String::from("hi");
+    let chuck = String::from("chuckwudi");
+    set.insert(&hi);
+    set.insert(&also_hi);
+    set.insert(&chuck);
+
+    println!("set: {:?}", set);
 }

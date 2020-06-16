@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::{HashMap, HashSet};
 use std::fmt;
 use crate::stl::{Solid};
 use crate::stl::datatypes::{Vertex};
@@ -7,7 +7,7 @@ use crate::stl::datatypes::{Vertex};
 // Let's try storing them in an adjacency list
 pub struct Mesh {
   vertices: HashMap<Vertex, usize>,
-  adjacency_list: HashMap<usize, Vec<usize>>,
+  adjacency_list: HashMap<usize, HashSet<usize>>,
 }
 
 impl Mesh {
@@ -48,17 +48,17 @@ impl Mesh {
       }
     }
     
-    let a_neighbors = self.adjacency_list.entry(a_id).or_insert_with(Vec::new);
-    a_neighbors.push(b_id);
-    a_neighbors.push(c_id);
+    let a_neighbors = self.adjacency_list.entry(a_id).or_insert_with(HashSet::new);
+    a_neighbors.insert(b_id);
+    a_neighbors.insert(c_id);
 
-    let b_neighbors = self.adjacency_list.entry(b_id).or_insert_with(Vec::new);
-    b_neighbors.push(a_id);
-    b_neighbors.push(c_id);
+    let b_neighbors = self.adjacency_list.entry(b_id).or_insert_with(HashSet::new);
+    b_neighbors.insert(a_id);
+    b_neighbors.insert(c_id);
 
-    let c_neighbors = self.adjacency_list.entry(c_id).or_insert_with(Vec::new);
-    c_neighbors.push(a_id);
-    c_neighbors.push(b_id);
+    let c_neighbors = self.adjacency_list.entry(c_id).or_insert_with(HashSet::new);
+    c_neighbors.insert(a_id);
+    c_neighbors.insert(b_id);
   }
 }
 
