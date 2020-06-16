@@ -6,8 +6,8 @@ use crate::stl::datatypes::{Vertex};
 // While Solid stores a surface as triangles, the way an STL file does, Mesh stores a list of vertices and edges.
 // Let's try storing them in an adjacency list
 pub struct Mesh {
-  vertices: HashMap<Vertex, i32>,
-  adjacency_list: HashMap<i32, Vec<i32>>,
+  vertices: HashMap<Vertex, usize>,
+  adjacency_list: HashMap<usize, Vec<usize>>,
 }
 
 impl Mesh {
@@ -16,8 +16,8 @@ impl Mesh {
     let a_id;
     match a_id_option {
       None => {
-        self.vertices.insert(a, 0);
-        a_id = 0;
+        self.vertices.insert(a, self.vertices.len());
+        a_id = self.vertices.len()-1;
       },
       Some(x) => {
         a_id = *x;
@@ -28,8 +28,8 @@ impl Mesh {
     let b_id;
     match b_id_option {
       None => {
-        self.vertices.insert(b, 0);
-        b_id = 0;
+        self.vertices.insert(b, self.vertices.len());
+        b_id = self.vertices.len()-1;
       },
       Some(x) => {
         b_id = *x;
@@ -40,8 +40,8 @@ impl Mesh {
     let c_id;
     match c_id_option {
       None => {
-        self.vertices.insert(c, 0);
-        c_id = 0;
+        self.vertices.insert(c, self.vertices.len());
+        c_id = self.vertices.len()-1;
       },
       Some(x) => {
         c_id = *x;
@@ -82,7 +82,8 @@ impl fmt::Display for Mesh {
     let num_edges = self.adjacency_list.values().fold(0, |acc, x| acc + x.len());
     let first = self.vertices.keys().next().expect("no vertices in mesh!");
     let vertex_display = format!("{:?}", first);
+    let first_edges = self.adjacency_list.get(&0).expect("no edges");
 
-    write!(f, "Mesh with {} vertices, {} edges\na vertex: {:?}", self.vertices.len(), num_edges, vertex_display)
+    write!(f, "Mesh with {} vertices, {} edges\na vertex: {:?}, {:?}", self.vertices.len(), num_edges, vertex_display, first_edges)
   }
 }
