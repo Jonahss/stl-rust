@@ -1,9 +1,9 @@
 use std::hash::{Hash, Hasher};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Triangle (pub Vertex, pub Vertex, pub Vertex);
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Vertex {
   pub x: f32,
   pub y: f32,
