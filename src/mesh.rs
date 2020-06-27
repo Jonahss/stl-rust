@@ -100,6 +100,12 @@ impl Mesh {
   pub fn average_vertex_valence(&self) -> i32 {
     self.adjacency_list.values().map(|edges| edges.len()).sum::<usize>() as i32 / self.num_vertices()
   }
+
+  pub fn genus(&self) -> i32 {
+    let num_edges = self.num_edges();
+    let num_vertices = self.num_vertices();
+    1 - ((num_vertices - num_edges + self.num_triangles) / 2)
+  }
 }
 
 impl fmt::Display for Mesh {
@@ -115,7 +121,7 @@ impl fmt::Display for Mesh {
     writeln!(f, "F ≈ 2V ({} ≈ {})", self.num_triangles, 2 * num_vertices);
     writeln!(f, "E ≈ 3V ({} ≈ {})", self.num_edges(), 3 * num_vertices);
     writeln!(f, "Average Vertex Valence ≈ 6 ({} ≈ 6)", self.average_vertex_valence());
-    writeln!(f, "Euler formula: V - E + F = 2(1-g)  (g = {})", 1 - ((num_vertices - num_edges + self.num_triangles) / 2));
+    writeln!(f, "Euler formula: V - E + F = 2(1-g)  (g = {})", self.genus());
     writeln!(f, "a vertex: {:?}, {:?}", vertex_display, first_edges)
   }
 }
